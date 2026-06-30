@@ -1,0 +1,73 @@
+{
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading...",
+    "error": "Something went wrong"
+  },
+  "tabs": {
+    "home": "Home",
+    "newComplaint": "New Complaint",
+    "updates": "Updates",
+    "complaints": "Complaints",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "updates": {
+    "title": "Updates",
+    "subtitle": "Announcements from your MLA office",
+    "empty": "No updates yet."
+  },
+  "home": {
+    "yourLocation": "Your Location",
+    "locationFetching": "Fetching location...",
+    "locationDenied": "Location permission denied",
+    "locationUnavailable": "Location unavailable",
+    "bannerTitle": "File a New Grievance",
+    "bannerSub": "Submit your public issue to the Government of Assam",
+    "mlaMessageTitle": "Message from your MLA",
+    "mlaMessageSub": "Watch the latest update from your constituency representative",
+    "videoComingSoon": "Video will be available soon.",
+    "quickActions": "Quick Actions",
+    "quickActionNewComplaint": "New\nComplaint",
+    "quickActionTrackStatus": "Track\nStatus",
+    "quickActionHistory": "My\nHistory",
+    "quickActionHelp": "Help &\nSupport",
+    "recentGrievances": "Recent Grievances",
+    "noGrievances": "No grievances filed yet."
+  },
+  "newComplaint": {
+    "title": "File a Grievance",
+    "subtitle": "Describe your issue — we'll route it to your MLA",
+    "category": "Category",
+    "selectCategory": "Select Category",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Brief title of the issue",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe the issue in detail...",
+    "uploadPhoto": "Upload Photo",
+    "uploadVideo": "Upload Video",
+    "remove": "Remove",
+    "locationTitle": "Location (drag pin to adjust)",
+    "locationActive": "Active",
+    "locationUnavailable": "Unavailable",
+    "fetchingLocation": "Fetching location…",
+    "locationDenied": "Location permission denied. Enable it in settings to attach your location.",
+    "locationError": "Could not fetch location.",
+    "validationError": "Please fill in both title and description.",
+    "submitError": "Failed to submit complaint.",
+    "submitComplaint": "Submit Grievance"
+  },
+  "profile": {
+    "title": "Profile",
+    "language": "Language",
+    "logout": "Log Out"
+  },
+  "history": {
+    "title": "Complaint History",
+    "subtitle": "All your filed grievances",
+    "empty": "No grievances filed yet.",
+    "loadError": "Failed to load your complaints."
+  }
+}

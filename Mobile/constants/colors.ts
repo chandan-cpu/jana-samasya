@@ -1,0 +1,21 @@
+// Single source of truth for design tokens, mirrors theme.extend.colors in tailwind.config.js
+export const COLORS = {
+  primary: "#0d631b",
+  primaryContainer: "#2e7d32",
+  onPrimary: "#ffffff",
+  onPrimaryContainer: "#cbffc2",
+  secondary: "#005db7",
+  secondaryContainer: "#64a1ff",
+  tertiary: "#774c00",
+  tertiaryContainer: "#986200",
+  surface: "#f8f9fa",
+  surfaceContainerHigh: "#e7e8e9",
+  surfaceContainerLow: "#f3f4f5",
+  surfaceContainer: "#edeeef",
+  onSurface: "#191c1d",
+  onSurfaceVariant: "#40493d",
+  outline: "#707a6c",
+  outlineVariant: "#bfcaba",
+  error: "#ba1a1a",
+  white: "#ffffff",
+};

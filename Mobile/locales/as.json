@@ -1,0 +1,73 @@
+{
+  "common": {
+    "submit": "জমা দিয়ক",
+    "cancel": "বাতিল কৰক",
+    "save": "সংৰক্ষণ কৰক",
+    "loading": "লোড হৈ আছে...",
+    "error": "কিবা ভুল হ'ল"
+  },
+  "tabs": {
+    "home": "গৃহ",
+    "newComplaint": "নতুন অভিযোগ",
+    "updates": "আপডেট",
+    "complaints": "অভিযোগ",
+    "chat": "চাট",
+    "profile": "প্ৰফাইল"
+  },
+  "updates": {
+    "title": "আপডেট",
+    "subtitle": "আপোনাৰ বিধায়ক কাৰ্যালয়ৰ পৰা ঘোষণা",
+    "empty": "এতিয়ালৈকে কোনো আপডেট নাই।"
+  },
+  "home": {
+    "yourLocation": "আপোনাৰ স্থান",
+    "locationFetching": "স্থান বিচাৰি আছে...",
+    "locationDenied": "স্থানৰ অনুমতি বাতিল",
+    "locationUnavailable": "স্থান উপলব্ধ নাই",
+    "bannerTitle": "সমস্যাৰ,বিৱৰণ চমুকৈ",
+    "bannerSub": "আপোনাৰ সমস্যাটো মাননীয় বিধায়কক জনাওক",
+    "mlaMessageTitle": "আপোনাৰ বিধায়কৰ পৰা বাৰ্তা",
+    "mlaMessageSub": " বিৱৰণ",
+    "videoComingSoon": "ভিডিঅ অলপতে উপলব্ধ হ'ব।",
+    "quickActions": "তাৎক্ষনিক প্ৰতিক্ৰীয়া",
+    "quickActionNewComplaint": "  তাৎক্ষনিক প্ৰতিক্ৰীয়া/ নতুনঅভিযোগ",
+    "quickActionTrackStatus": "অভিযোগৰ ট্ৰেকিং ষ্টেটাছ",
+    "quickActionHistory": "অভিযোগৰ ইতিহাস",
+    "quickActionHelp": "তাৎক্ষনিকসহায় আৰু সমর্থন",
+    "recentGrievances": "শেহতীয়া অভিযোগ",
+    "noGrievances": "এতিয়ালৈকে কোনো অভিযোগ দাখিল কৰা নাই।"
+  },
+  "newComplaint": {
+    "title": "এটা নতুন অভিযোগ দাখিল কৰক",
+    "subtitle": "আপোনাৰ সমস্যাটো বর্ণনা কৰক — খুব সোনকালে বিধায়ক মহোদয়ে সহাৰি জনাব",
+    "category": "শ্ৰেণী",
+    "selectCategory": "শ্ৰেণী বাছনি কৰক",
+    "titleLabel": "শিৰোনাম",
+    "titlePlaceholder": "সমস্যাটোৰ চমু শিৰোনাম",
+    "descriptionLabel": "বিবৰণ",
+    "descriptionPlaceholder": "সমস্যাটো বিৱৰিতভাৱে বর্ণনা কৰক...",
+    "uploadPhoto": "ফটো আপলোড কৰক",
+    "uploadVideo": "ভিডিঅ আপলোড কৰক",
+    "remove": "মচি দিয়ক",
+    "locationTitle": "কোনঠাইৰ পৰা ফটো পঠাইছে)",
+    "locationActive": "সক্রিয়",
+    "locationUnavailable": "উপলব্ধ নাই",
+    "fetchingLocation": "স্থান বিচাৰি আছে...",
+    "locationDenied": "স্থানৰ অনুমতি বতিল। আপোনাৰ স্থান সংযুক্ত কৰিবলে ছেটিংসত ইয়াক সক্ষম কৰক।",
+    "locationError": "স্থান বিছাৰি নাপালে",
+    "validationError": "ভেলিদেছন ইৰৰ",
+    "submitError": "অভিযোগ জমা দিয়াত সফল নহ'ল।",
+    "submitComplaint": "অভিযোগ জমা দিয়ক"
+  },
+  "profile": {
+    "title": "প্ৰফাইল",
+    "language": "ভাষা",
+    "logout": "লগ আউট"
+  },
+  "history": {
+    "title": "অভিযোগৰ ইতিহাস",
+    "subtitle": "আপোনাৰ দাখিল কৰা সকলো অভিযোগ",
+    "empty": "এতিয়ালৈকে কোনো অভিযোগ দাখিল কৰা নাই।",
+    "loadError": "অভিযোগ লোড কৰিবলে অক্ষম হ'ল।"
+  }
+}
