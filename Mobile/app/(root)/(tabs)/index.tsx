@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import * as Location from "expo-location";
 import { COLORS } from "@/constants/colors";
 import { useMyComplaints } from "@/hooks/useMyComplaints";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
 
 type LocationState =
   | { status: "loading" }
@@ -56,6 +57,7 @@ export default function HomeScreen() {
   const { complaints } = useMyComplaints();
   const recent = complaints.slice(0, 5);
   const [location, setLocation] = useState<LocationState>({ status: "loading" });
+  const { permissionStatus, registerForPushNotifications } = usePushNotifications();
 
   async function fetchLocation() {
     setLocation({ status: "loading" });
@@ -128,6 +130,21 @@ export default function HomeScreen() {
                 <MaterialIcons name="keyboard-arrow-down" size={16} color={COLORS.onSurfaceVariant} />
               </View>
             </View>
+          </Pressable>
+          <Pressable
+            style={styles.notifBtn}
+            accessibilityLabel="Enable notifications"
+            onPress={async () => {
+              const token = await registerForPushNotifications();
+              if (!token) Alert.alert("Notifications", "Could not enable notifications. Please allow permission in settings.");
+              else Alert.alert("Notifications", "Notifications enabled!");
+            }}
+          >
+            <MaterialIcons
+              name={permissionStatus === "granted" ? "notifications-active" : "notifications-none"}
+              size={26}
+              color={permissionStatus === "granted" ? COLORS.primary : COLORS.onSurfaceVariant}
+            />
           </Pressable>
           <Pressable style={styles.avatarBtn} accessibilityLabel="Profile" onPress={() => router.push("/(root)/(tabs)/profile")}>
             <MaterialIcons name="account-circle" size={40} color={COLORS.primary} />
@@ -256,6 +273,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   avatarBtn: { padding: 4 },
+  notifBtn: { padding: 4 },
   mlaCard: {
     backgroundColor: COLORS.white,
     borderRadius: 16,

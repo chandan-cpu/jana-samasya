@@ -2,6 +2,7 @@ import type { Response } from "express";
 import { Complaint, COMPLAINT_CATEGORIES, COMPLAINT_STATUSES } from "../models/Complaint";
 import type { AuthedRequest } from "../middleware/requireRole";
 import { uploadBufferToCloudinary } from "../config/cloudinary";
+import { sendPushNotification } from "./notifications.controller";
 
 export async function createComplaint(req: AuthedRequest, res: Response) {
   const { title, description, category, lat, lng } = req.body ?? {};
@@ -95,5 +96,15 @@ export async function updateComplaint(req: AuthedRequest, res: Response) {
   }
 
   await complaint.save();
+
+  if (status) {
+    sendPushNotification(
+      complaint.citizenUserId,
+      "Complaint Status Updated",
+      `Your complaint "${complaint.title}" is now ${status}.`,
+      { complaintId: complaint._id.toString() }
+    ).catch(() => {});
+  }
+
   res.json(complaint);
 }

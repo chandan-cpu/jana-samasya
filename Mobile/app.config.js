@@ -76,6 +76,14 @@ module.exports = {
         },
       ],
       "expo-localization",
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/images/icon.png",
+          color: "#ffffff",
+          sounds: [],
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,
