@@ -1,0 +1,35 @@
+{
+  "cli": {
+    "version": ">= 16.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_c3VpdGFibGUtamFja2FsLTc3LmNsZXJrLmFjY291bnRzLmRldiQ",
+        "EXPO_PUBLIC_API_BASE_URL": "https://jana-samasya.onrender.com",
+        "GOOGLE_MAPS_API_KEY": "AIzaSyDqGTPbNva-_HvqMzbS2qnYR19pbmfYUVo"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_c3VpdGFibGUtamFja2FsLTc3LmNsZXJrLmFjY291bnRzLmRldiQ",
+        "EXPO_PUBLIC_API_BASE_URL": "https://jana-samasya.onrender.com",
+        "GOOGLE_MAPS_API_KEY": "AIzaSyDqGTPbNva-_HvqMzbS2qnYR19pbmfYUVo"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
   expo: {
@@ -32,7 +30,7 @@ module.exports = {
       },
       edgeToEdgeEnabled: true,
       predictiveBackGestureEnabled: false,
-      package: "com.anonymous.Mobile",
+      package: "com.janasamasya.app",
       permissions: ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
       config: {
         googleMaps: {
@@ -88,6 +86,11 @@ module.exports = {
     experiments: {
       typedRoutes: true,
       reactCompiler: true,
+    },
+    extra: {
+      eas: {
+        projectId: "9eeb180f-e1c2-41d5-b396-eb88934a602a",
+      },
     },
   },
 };
