@@ -51,6 +51,8 @@ export default function LoginScreen() {
         if (result.status === "complete") {
           await setActive({ session: result.createdSessionId });
           router.replace("/");
+        } else {
+          setError(`Login incomplete: ${result.status}`);
         }
       } catch (err: any) {
         const msg = err?.errors?.[0]?.longMessage ?? err?.errors?.[0]?.message ?? "Login failed. Please try again.";

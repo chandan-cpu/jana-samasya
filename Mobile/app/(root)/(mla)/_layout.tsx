@@ -1,13 +1,22 @@
 /**
  * app/(mla)/_layout.tsx
- * Tab navigator for the MLA panel.
- * Tabs: Complaints, Profile
+ * Tab navigator for the MLA panel — Overview, Complaints, Profile
  */
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useUser } from "@clerk/clerk-expo";
+import { useTranslation } from "react-i18next";
 import { COLORS } from "@/constants/colors";
 
 export default function MlaTabsLayout() {
+  const { user, isLoaded } = useUser();
+  const { t } = useTranslation();
+
+  if (!isLoaded) return null;
+
+  const role = user?.publicMetadata?.role as "citizen" | "mla" | undefined;
+  if (role !== "mla") return <Redirect href="/(root)/(tabs)" />;
+
   return (
     <Tabs
       screenOptions={{
@@ -32,7 +41,16 @@ export default function MlaTabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Complaints",
+          title: t("mla.tabs.overview"),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="dashboard" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="complaints"
+        options={{
+          title: t("mla.tabs.complaints"),
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="assignment" size={size} color={color} />
           ),
@@ -41,11 +59,16 @@ export default function MlaTabsLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t("mla.tabs.profile"),
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="person-outline" size={size} color={color} />
           ),
         }}
+      />
+      {/* Keep complaint detail hidden from tab bar */}
+      <Tabs.Screen
+        name="complaint/[id]"
+        options={{ href: null }}
       />
     </Tabs>
   );

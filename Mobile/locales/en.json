@@ -62,12 +62,87 @@
   "profile": {
     "title": "Profile",
     "language": "Language",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "logoutError": "Failed to log out. Please try again."
   },
   "history": {
     "title": "Complaint History",
     "subtitle": "All your filed grievances",
     "empty": "No grievances filed yet.",
     "loadError": "Failed to load your complaints."
+  },
+  "comingSoon": {
+    "title": "Coming Soon",
+    "subtitle": "This feature is under development and will be available in a future update."
+  },
+  "mla": {
+    "tabs": {
+      "overview": "Overview",
+      "complaints": "Complaints",
+      "profile": "Profile"
+    },
+    "dashboard": {
+      "title": "Admin Panel",
+      "subtitle": "Directorate of Grievances",
+      "stats": {
+        "total": "Total",
+        "resolved": "Resolved",
+        "pending": "Pending",
+        "critical": "Critical"
+      },
+      "trends": {
+        "title": "Monthly Trends"
+      },
+      "months": {
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep"
+      },
+      "categories": {
+        "title": "Issues by Category",
+        "infrastructure": "Infrastructure",
+        "health": "Public Health",
+        "education": "Education"
+      },
+      "recent": {
+        "title": "Recent Complaints",
+        "viewAll": "View All",
+        "empty": "No complaints found."
+      }
+    },
+    "complaints": {
+      "title": "Citizen Complaints",
+      "subtitle": "Review and resolve grievances",
+      "filterAll": "All",
+      "filterPending": "Pending",
+      "filterInProgress": "In Progress",
+      "filterResolved": "Resolved",
+      "empty": "No complaints found.",
+      "updateStatus": "Update Status"
+    },
+    "profile": {
+      "role": "MLA Panel"
+    },
+    "detail": {
+      "title": "Complaint Detail",
+      "notFound": "Complaint not found.",
+      "retry": "Try Again",
+      "photo": "Attached Photo",
+      "location": "Reported Location",
+      "openMaps": "Open in Maps",
+      "history": "Status History",
+      "noHistory": "No status changes yet.",
+      "prevResponse": "Previous MLA Response",
+      "updateTitle": "Update Status & Response",
+      "statusLabel": "Set Status",
+      "responseLabel": "Response to Citizen",
+      "responsePlaceholder": "Write your response or action taken...",
+      "saveBtn": "Save Update",
+      "saveSuccess": "Complaint updated successfully."
+    }
   }
 }

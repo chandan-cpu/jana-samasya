@@ -52,13 +52,41 @@ export async function listMyComplaints(req: AuthedRequest, res: Response) {
 }
 
 export async function listAllComplaints(req: AuthedRequest, res: Response) {
-  const { status } = req.query;
+  const { status, category, page, limit } = req.query;
+
   const filter: Record<string, unknown> = {};
   if (typeof status === "string" && COMPLAINT_STATUSES.includes(status as any)) {
     filter.status = status;
   }
-  const complaints = await Complaint.find(filter).sort({ createdAt: -1 });
-  res.json(complaints);
+  if (typeof category === "string" && COMPLAINT_CATEGORIES.includes(category as any)) {
+    filter.category = category;
+  }
+
+  const pageNum = Math.max(1, parseInt(page as string) || 1);
+  const limitNum = Math.min(50, Math.max(1, parseInt(limit as string) || 15));
+  const skip = (pageNum - 1) * limitNum;
+
+  const [data, total] = await Promise.all([
+    Complaint.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+    Complaint.countDocuments(filter),
+  ]);
+
+  res.json({
+    data,
+    total,
+    page: pageNum,
+    pages: Math.ceil(total / limitNum),
+  });
+}
+
+export async function getComplaintStats(req: AuthedRequest, res: Response) {
+  const [total, resolved, pending, inProgress] = await Promise.all([
+    Complaint.countDocuments({}),
+    Complaint.countDocuments({ status: "Resolved" }),
+    Complaint.countDocuments({ status: "Pending" }),
+    Complaint.countDocuments({ status: "In Progress" }),
+  ]);
+  res.json({ total, resolved, pending, inProgress });
 }
 
 export async function getComplaintById(req: AuthedRequest, res: Response) {

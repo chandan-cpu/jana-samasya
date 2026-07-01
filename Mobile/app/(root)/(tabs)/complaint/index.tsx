@@ -25,11 +25,11 @@ export default function ComplaintHistoryScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.surface} />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.secondary} />
 
       <View style={styles.header}>
         <Pressable style={styles.backBtn} onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back" size={24} color={COLORS.onSurface} />
+          <MaterialIcons name="arrow-back" size={24} color={COLORS.white} />
         </Pressable>
         <View>
           <Text style={styles.headerTitle}>{t("history.title")}</Text>
@@ -83,14 +83,15 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: 42,
+    backgroundColor: COLORS.secondary,
     paddingHorizontal: 20,
     paddingTop: 8,
     paddingBottom: 12,
   },
   backBtn: { padding: 4 },
-  headerTitle: { fontSize: 20, fontWeight: "700", color: COLORS.onSurface },
-  headerSub: { fontSize: 13, color: COLORS.onSurfaceVariant, marginTop: 2 },
+  headerTitle: { fontSize: 20, fontWeight: "700", color: COLORS.white },
+  headerSub: { fontSize: 13, color: COLORS.secondaryContainer, marginTop: 2 },
   scroll: { flex: 1 },
   scrollContent: { padding: 20, paddingTop: 0, gap: 12, paddingBottom: 32 },
   errorText: { color: COLORS.error, fontSize: 13, fontWeight: "500" },

@@ -15,7 +15,7 @@ export default function UpdatesScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.surface} />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.secondary} />
 
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{t("updates.title")}</Text>
@@ -34,9 +34,14 @@ export default function UpdatesScreen() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: COLORS.surface },
-  header: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 16 },
-  headerTitle: { fontSize: 22, fontWeight: "700", color: COLORS.onSurface },
-  headerSub: { fontSize: 13, color: COLORS.onSurfaceVariant, marginTop: 2 },
+  header: {
+    backgroundColor: COLORS.secondary,
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 16,
+  },
+  headerTitle: { fontSize: 22, fontWeight: "700", color: COLORS.white },
+  headerSub: { fontSize: 13, color: COLORS.secondaryContainer, marginTop: 2 },
   content: { flexGrow: 1, paddingHorizontal: 20 },
   empty: { flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 80, gap: 12 },
   emptyText: { fontSize: 14, color: COLORS.onSurfaceVariant },

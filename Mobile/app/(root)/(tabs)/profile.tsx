@@ -3,8 +3,9 @@
  * Jana Samasya — Profile Tab
  */
 
-import React from "react";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   ScrollView,
@@ -18,6 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useTranslation } from "react-i18next";
+import * as Location from "expo-location";
 import { COLORS } from "@/constants/colors";
 import { useMyComplaints } from "@/hooks/useMyComplaints";
 import { changeLanguage, SUPPORTED_LANGUAGES, SupportedLanguage } from "@/lib/i18n";
@@ -27,6 +29,12 @@ const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   as: "অসমীয়া",
 };
 
+type LocationState =
+  | { status: "loading" }
+  | { status: "denied" }
+  | { status: "error" }
+  | { status: "ready"; label: string };
+
 // ─── Menu Item type ───────────────────────────────────────────────────────────
 type MenuItem = {
   id: string;
@@ -35,6 +43,7 @@ type MenuItem = {
   sublabel?: string;
   onPress?: () => void;
   danger?: boolean;
+  disabled?: boolean;
 };
 
 // ─── Profile Screen ───────────────────────────────────────────────────────────
@@ -44,14 +53,73 @@ export default function ProfileScreen() {
   const { user } = useUser();
   const { complaints } = useMyComplaints();
   const { t, i18n } = useTranslation();
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [location, setLocation] = useState<LocationState>({ status: "loading" });
 
   const filedCount = complaints.length;
   const resolvedCount = complaints.filter((c) => c.status === "Resolved").length;
   const pendingCount = filedCount - resolvedCount;
 
-  async function handleLogout() {
-    await signOut();
-    router.replace("/(auth)/login");
+  React.useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  async function fetchLocation() {
+    setLocation({ status: "loading" });
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setLocation({ status: "denied" });
+      return;
+    }
+    try {
+      const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      const [place] = await Location.reverseGeocodeAsync({
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      });
+      const label = [place?.district ?? place?.city ?? place?.subregion, place?.region]
+        .filter(Boolean)
+        .join(", ");
+      setLocation({ status: "ready", label: label || t("home.locationUnavailable") });
+    } catch {
+      setLocation({ status: "error" });
+    }
+  }
+
+  const locationDisplay =
+    location.status === "ready"
+      ? location.label
+      : location.status === "denied"
+        ? t("home.locationDenied")
+        : location.status === "error"
+          ? t("home.locationUnavailable")
+          : t("home.locationFetching");
+
+  function handleLogout() {
+    Alert.alert(
+      t("profile.logout"),
+      t("profile.logoutConfirm"),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("profile.logout"),
+          style: "destructive",
+          onPress: confirmLogout,
+        },
+      ]
+    );
+  }
+
+  async function confirmLogout() {
+    if (loggingOut) return;
+    setLoggingOut(true);
+    try {
+      await signOut();
+      router.replace("/(auth)/login");
+    } catch (err) {
+      setLoggingOut(false);
+      Alert.alert(t("common.error"), t("profile.logoutError"));
+    }
   }
 
   function handleChangeLanguage() {
@@ -72,10 +140,30 @@ export default function ProfileScreen() {
       label: "My Complaints",
       onPress: () => router.push("/(root)/(tabs)/complaint"),
     },
-    { id: "2", icon: "event-note", label: "My Appointments" },
-    { id: "3", icon: "article", label: "My Memorandum" },
-    { id: "4", icon: "folder-open", label: "My Documents" },
-    { id: "5", icon: "notifications-none", label: "Notification Settings" },
+    {
+      id: "2",
+      icon: "event-note",
+      label: "My Appointments",
+      onPress: () => router.push({ pathname: "/(root)/coming-soon/[feature]", params: { feature: "appointments", title: "My Appointments", icon: "event-note" } }),
+    },
+    {
+      id: "3",
+      icon: "article",
+      label: "My Memorandum",
+      onPress: () => router.push({ pathname: "/(root)/coming-soon/[feature]", params: { feature: "memorandum", title: "My Memorandum", icon: "article" } }),
+    },
+    {
+      id: "4",
+      icon: "folder-open",
+      label: "My Documents",
+      onPress: () => router.push({ pathname: "/(root)/coming-soon/[feature]", params: { feature: "documents", title: "My Documents", icon: "folder-open" } }),
+    },
+    {
+      id: "5",
+      icon: "notifications-none",
+      label: "Notification Settings",
+      onPress: () => router.push({ pathname: "/(root)/coming-soon/[feature]", params: { feature: "notification-settings", title: "Notification Settings", icon: "notifications-none" } }),
+    },
     {
       id: "6",
       icon: "language",
@@ -83,13 +171,19 @@ export default function ProfileScreen() {
       sublabel: LANGUAGE_NAMES[i18n.language as SupportedLanguage] ?? LANGUAGE_NAMES.en,
       onPress: handleChangeLanguage,
     },
-    { id: "7", icon: "info-outline", label: "About App" },
+    {
+      id: "7",
+      icon: "info-outline",
+      label: "About App",
+      onPress: () => router.push({ pathname: "/(root)/coming-soon/[feature]", params: { feature: "about", title: "About App", icon: "info-outline" } }),
+    },
     {
       id: "8",
       icon: "logout",
       label: t("profile.logout"),
       danger: true,
       onPress: handleLogout,
+      disabled: loggingOut,
     },
   ];
 
@@ -126,10 +220,10 @@ export default function ProfileScreen() {
                 {(user?.unsafeMetadata?.phone as string) ?? user?.primaryEmailAddress?.emailAddress ?? ""}
               </Text>
             </View>
-            <View style={styles.infoRow}>
+            <Pressable style={styles.infoRow} onPress={fetchLocation} disabled={location.status === "loading"}>
               <MaterialIcons name="location-on" size={14} color={COLORS.onSurfaceVariant} />
-              <Text style={styles.userInfoText}>Kaliabor, Nagaon{"\n"}Assam, India</Text>
-            </View>
+              <Text style={styles.userInfoText}>{locationDisplay}</Text>
+            </Pressable>
           </View>
         </View>
 
@@ -158,8 +252,10 @@ export default function ProfileScreen() {
                 style={({ pressed }) => [
                   styles.menuItem,
                   pressed && styles.menuItemPressed,
+                  item.disabled && styles.menuItemDisabled,
                 ]}
                 onPress={item.onPress ?? (() => {})}
+                disabled={item.disabled}
                 android_ripple={{ color: COLORS.surfaceContainerHigh }}
                 accessibilityRole="button"
                 accessibilityLabel={item.label}
@@ -180,14 +276,16 @@ export default function ProfileScreen() {
                       <Text style={styles.menuSublabel}>{item.sublabel}</Text>
                     )}
                   </View>
-                  {!item.danger && (
+                  {item.id === "8" && loggingOut ? (
+                    <ActivityIndicator size="small" color={COLORS.error} style={{ marginLeft: 8 }} />
+                  ) : !item.danger ? (
                     <MaterialIcons
                       name="chevron-right"
                       size={20}
                       color={COLORS.outlineVariant}
                       style={{ marginLeft: 8 }}
                     />
-                  )}
+                  ) : null}
                 </View>
               </Pressable>
               {index < menuItems.length - 1 && <View style={styles.menuDivider} />}
@@ -304,6 +402,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   menuItemPressed: { backgroundColor: COLORS.surfaceContainerLow, opacity: 0.7 },
+  menuItemDisabled: { opacity: 0.5 },
   menuLabel: {
     fontSize: 17,
     fontWeight: "600",

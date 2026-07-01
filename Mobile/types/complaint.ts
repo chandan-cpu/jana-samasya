@@ -1,5 +1,19 @@
 export type ComplaintStatus = "Pending" | "In Progress" | "Resolved";
 
+export interface PaginatedComplaints {
+  data: Complaint[];
+  total: number;
+  page: number;
+  pages: number;
+}
+
+export interface ComplaintStats {
+  total: number;
+  resolved: number;
+  pending: number;
+  inProgress: number;
+}
+
 export type ComplaintCategory =
   | "Roads"
   | "Water Supply"

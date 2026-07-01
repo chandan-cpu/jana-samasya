@@ -4,6 +4,7 @@ import { uploadComplaintMedia } from "../middleware/upload";
 import {
   createComplaint,
   getComplaintById,
+  getComplaintStats,
   listAllComplaints,
   listMyComplaints,
   updateComplaint,
@@ -13,6 +14,7 @@ const router = Router();
 
 router.post("/", requireRole("citizen"), uploadComplaintMedia, createComplaint);
 router.get("/mine", requireRole("citizen"), listMyComplaints);
+router.get("/stats", requireRole("mla"), getComplaintStats);
 router.get("/", requireRole("mla"), listAllComplaints);
 router.get("/:id", requireRole("citizen", "mla"), getComplaintById);
 router.patch("/:id", requireRole("mla"), updateComplaint);

@@ -13,6 +13,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { Image } from "expo-image";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -175,7 +176,12 @@ export default function HomeScreen() {
             accessibilityRole="button"
             accessibilityLabel={t("home.mlaMessageTitle")}
           >
-            <MaterialIcons name="person" size={48} color={COLORS.surfaceContainerHigh} />
+            <Image
+              source={require("@/assets/images/mla.photo.jpeg")}
+              style={styles.mlaThumbnailImage}
+              contentFit="cover"
+              contentPosition="top"
+            />
             <View style={styles.mlaPlayBtn}>
               <MaterialIcons name="play-arrow" size={28} color={COLORS.white} />
             </View>
@@ -289,6 +295,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.surfaceContainerLow,
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+    overflow: "hidden",
+  },
+  mlaThumbnailImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
   },
   mlaPlayBtn: {
     position: "absolute",

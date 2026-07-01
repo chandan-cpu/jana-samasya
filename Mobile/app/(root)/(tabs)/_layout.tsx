@@ -3,10 +3,11 @@
  * Tab navigator layout for the main app.
  * Tabs: Home, Updates, [Mic FAB -> voice complaint], Complaints, Profile
  */
-import { Tabs, useRouter } from "expo-router";
+import { Redirect, Tabs, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useUser } from "@clerk/clerk-expo";
 import { COLORS } from "@/constants/colors";
 
 function MicTabButton() {
@@ -25,6 +26,12 @@ function MicTabButton() {
 
 export default function TabsLayout() {
   const { t } = useTranslation();
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) return null;
+
+  const role = user?.publicMetadata?.role as "citizen" | "mla" | undefined;
+  if (role === "mla") return <Redirect href="/(root)/(mla)" />;
 
   return (
     <Tabs
