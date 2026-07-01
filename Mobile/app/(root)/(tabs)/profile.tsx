@@ -19,8 +19,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useTranslation } from "react-i18next";
-import * as Location from "expo-location";
 import { COLORS } from "@/constants/colors";
+import { getCachedLocation } from "@/lib/locationCache";
 import { useMyComplaints } from "@/hooks/useMyComplaints";
 import { changeLanguage, SUPPORTED_LANGUAGES, SupportedLanguage } from "@/lib/i18n";
 
@@ -66,23 +66,11 @@ export default function ProfileScreen() {
 
   async function fetchLocation() {
     setLocation({ status: "loading" });
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setLocation({ status: "denied" });
-      return;
-    }
-    try {
-      const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-      const [place] = await Location.reverseGeocodeAsync({
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
-      });
-      const label = [place?.district ?? place?.city ?? place?.subregion, place?.region]
-        .filter(Boolean)
-        .join(", ");
-      setLocation({ status: "ready", label: label || t("home.locationUnavailable") });
-    } catch {
-      setLocation({ status: "error" });
+    const result = await getCachedLocation();
+    if (result.status === "ready") {
+      setLocation({ status: "ready", label: result.label || t("home.locationUnavailable") });
+    } else {
+      setLocation(result);
     }
   }
 

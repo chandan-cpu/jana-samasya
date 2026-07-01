@@ -1,44 +1,10 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { api, ApiError } from "../api";
+import type { Complaint, ComplaintStatus, ComplaintCategory } from "@/types/complaint";
 
-export type ComplaintStatus = "Pending" | "In Progress" | "Resolved";
-export type ComplaintCategory =
-  | "Roads"
-  | "Water Supply"
-  | "Electricity"
-  | "Sanitation"
-  | "Public Safety"
-  | "Other"
-  | "ৰাস্তা"
-  | "পানী যোগান"
-  | "বিদ্যুৎ"
-  | "পৰিষ্কাৰ-পৰিচ্ছন্নতা"
-  | "জনসুৰক্ষা"
-  | "অন্যান্য";
-
-export interface StatusHistoryEntry {
-  status: ComplaintStatus;
-  note?: string;
-  changedAt: string;
-  changedBy: string;
-}
-
-export interface Complaint {
-  _id: string;
-  citizenUserId: string;
-  title: string;
-  description: string;
-  category: ComplaintCategory;
-  status: ComplaintStatus;
-  mlaResponse?: string;
-  photoUrl?: string;
-  videoUrl?: string;
-  location?: { lat: number; lng: number };
-  statusHistory: StatusHistoryEntry[];
-  createdAt: string;
-  updatedAt: string;
-}
+// Re-export shared types so any legacy import from this file still works.
+export type { Complaint, ComplaintStatus, ComplaintCategory };
 
 export interface CreateComplaintInput {
   title: string;
@@ -159,10 +125,6 @@ const complaintsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMyComplaints.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
-      })
       .addCase(fetchMyComplaints.fulfilled, (state, action: PayloadAction<Complaint[]>) => {
         state.status = "succeeded";
         state.mine = action.payload;
@@ -186,16 +148,14 @@ const complaintsSlice = createSlice({
         if (idx !== -1) state.all[idx] = action.payload;
       })
       .addMatcher(
-        (action): action is ReturnType<typeof fetchMyComplaints.rejected> =>
-          action.type.startsWith("complaints/") && action.type.endsWith("/pending"),
+        (action) => action.type.startsWith("complaints/") && action.type.endsWith("/pending"),
         (state) => {
           state.status = "loading";
           state.error = null;
         }
       )
       .addMatcher(
-        (action): action is ReturnType<typeof fetchMyComplaints.rejected> =>
-          action.type.startsWith("complaints/") && action.type.endsWith("/rejected"),
+        (action) => action.type.startsWith("complaints/") && action.type.endsWith("/rejected"),
         (state, action) => {
           state.status = "failed";
           state.error = (action.payload as string) ?? "Something went wrong";

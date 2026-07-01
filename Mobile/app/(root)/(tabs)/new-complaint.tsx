@@ -26,6 +26,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "@/constants/colors";
 import { useApi } from "@/hooks/useApi";
+import { setPendingComplaint } from "@/lib/newComplaintStore";
 import type { Complaint, ComplaintCategory } from "@/types/complaint";
 
 // Index-aligned with each other: CATEGORIES_BY_LANG.as[i] is the Assamese
@@ -141,7 +142,8 @@ export default function NewComplaintScreen() {
         form.append("video", { uri: video.uri, name: video.name, type: video.type } as any);
       }
 
-      await call<Complaint>("/api/complaints", { method: "POST", body: form });
+      const created = await call<Complaint>("/api/complaints", { method: "POST", body: form });
+      setPendingComplaint(created);
       router.back();
     } catch (err: any) {
       setError(err?.message ?? t("newComplaint.submitError"));

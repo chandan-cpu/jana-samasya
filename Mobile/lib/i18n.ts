@@ -18,19 +18,28 @@ function resolveDeviceLanguage(): SupportedLanguage {
     : "en";
 }
 
-export async function initI18n() {
-  const savedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
-  const initialLanguage = savedLanguage ?? resolveDeviceLanguage();
+// Initialize synchronously at module load — resources are bundled in-memory so
+// init completes before any component renders, eliminating the blank startup screen.
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: en },
+    as: { translation: as },
+  },
+  lng: resolveDeviceLanguage(),
+  fallbackLng: "en",
+  interpolation: { escapeValue: false },
+});
 
-  await i18n.use(initReactI18next).init({
-    resources: {
-      en: { translation: en },
-      as: { translation: as },
-    },
-    lng: initialLanguage,
-    fallbackLng: "en",
-    interpolation: { escapeValue: false },
-  });
+// Async: update to the user's saved language preference after startup (non-blocking).
+export async function loadSavedLanguage(): Promise<void> {
+  try {
+    const saved = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (saved && SUPPORTED_LANGUAGES.includes(saved as SupportedLanguage) && saved !== i18n.language) {
+      await i18n.changeLanguage(saved);
+    }
+  } catch {
+    // non-blocking — language will stay as device default
+  }
 }
 
 export async function changeLanguage(language: SupportedLanguage) {

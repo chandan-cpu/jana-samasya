@@ -63,14 +63,12 @@ export default function SplashScreen() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   function handleGetStarted() {
+    setIsLoading(true);
     Animated.sequence([
       Animated.timing(btnScale, { toValue: 0.95, duration: 100, useNativeDriver: true }),
       Animated.timing(btnScale, { toValue: 1, duration: 100, useNativeDriver: true }),
     ]).start(() => {
-      setIsLoading(true);
-      setTimeout(() => {
-        router.replace("/(auth)/login");
-      }, 800);
+      router.replace("/(auth)/login");
     });
   }
 
@@ -142,7 +140,6 @@ export default function SplashScreen() {
           { opacity: footer.opacity, transform: [{ translateY: footer.translateY }] },
         ]}
       >
-        {/* Get Started Button */}
         {/* Get Started Button */}
         <Animated.View
           style={{ transform: [{ scale: btnScale }], width: "100%" }}

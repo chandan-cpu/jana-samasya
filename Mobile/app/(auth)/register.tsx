@@ -364,30 +364,6 @@ const styles = StyleSheet.create({
   eyeBtn: {
     padding: 4,
   },
-  primaryBtn: {
-    height: 54,
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
-    marginTop: 4,
-  },
-  primaryBtnPressed: {
-    backgroundColor: COLORS.primaryContainer,
-  },
-  primaryBtnText: {
-    color: COLORS.onPrimary,
-    fontSize: 15,
-    fontWeight: "700",
-    letterSpacing: 0.2,
-  },
   errorBox: {
     flexDirection: "row",
     alignItems: "center",

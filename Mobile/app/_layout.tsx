@@ -1,10 +1,12 @@
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 import { Slot } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Provider } from "react-redux";
 
-import { initI18n } from "@/lib/i18n";
+// Importing i18n here ensures it initializes synchronously before any screen renders.
+import "@/lib/i18n";
+import { loadSavedLanguage } from "@/lib/i18n";
 import { setAuthTokenGetter } from "@/lib/api";
 import { store } from "@/lib/store";
 
@@ -48,15 +50,10 @@ function AuthTokenSync() {
 }
 
 export default function RootLayout() {
-  const [i18nReady, setI18nReady] = useState(false);
-
   useEffect(() => {
-    initI18n().then(() => setI18nReady(true));
+    // Non-blocking: update language to user's saved preference after first render.
+    loadSavedLanguage();
   }, []);
-
-  if (!i18nReady) {
-    return null;
-  }
 
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
